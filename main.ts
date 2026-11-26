@@ -28,22 +28,14 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
-const OUTPUT_PATH = "/output/entry.txt";
-
-/**
- * The single word this entry deletes from the dictionary forever.
- * Kept in its own function so the pick is the one deliberate decision
- * in the whole program — everything else is plumbing.
- */
-function chosenWord(): string {
-  return "doomscrolling";
-}
+const WORD = "doomscrolling";
+const OUT_PATH = "/output/entry.txt";
 
 /**
  * Ensure the output directory exists, then write exactly the chosen
  * word (plus a trailing newline) to the entry file, as UTF-8.
  */
-function writeEntry(path: string, word: string): void {
+function saveEntry(path: string, word: string): void {
   const dir = dirname(path);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
@@ -51,4 +43,13 @@ function writeEntry(path: string, word: string): void {
   writeFileSync(path, `${word}\n`, "utf8");
 }
 
-writeEntry(OUTPUT_PATH, chosenWord());
+/**
+ * The single word this entry deletes from the dictionary forever.
+ * Kept in its own function so the pick is the one deliberate decision
+ * in the whole program — everything else is plumbing.
+ */
+function pickWord(): string {
+  return WORD;
+}
+
+saveEntry(OUT_PATH, pickWord());
